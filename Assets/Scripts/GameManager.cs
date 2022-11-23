@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -7,15 +8,13 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private Slider healthBar;
-    [SerializeField] private Slider turboBar;
     [SerializeField] private TextMeshProUGUI txtWin;
     [SerializeField] private TextMeshProUGUI txtTime;
     [SerializeField] private TextMeshProUGUI hpValue;
-    [SerializeField] private TextMeshProUGUI turboValue;
     [SerializeField] private TextMeshProUGUI txtPoints;
+    [SerializeField] private Button btnOk;
     private GameObject _player;
     private int hp = 100;
-    public int turbo = 50;
     private int points = 0;
     private int time = 120;
 
@@ -23,7 +22,10 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+        txtWin.gameObject.SetActive(false);
+        btnOk.gameObject.SetActive(false);
         _player = GameObject.FindWithTag("Player");
     }
 
@@ -42,6 +44,7 @@ public class GameManager : MonoBehaviour
             Destroy(_player);
             Destroy(FindObjectOfType<CameraFollow>());
             win = false;
+            EndLevel("You died!");
         }
     }
 
@@ -57,5 +60,14 @@ public class GameManager : MonoBehaviour
         {
             healthBar.gameObject.transform.Find("Fill Area").Find("Fill").GetComponent<Image>().color = Color.green;
         }
+    }
+
+    private void EndLevel(String message)
+    {
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+        txtWin.text = message;
+        txtWin.gameObject.SetActive(true);
+        btnOk.gameObject.SetActive(true);
     }
 }

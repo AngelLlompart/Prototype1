@@ -1,10 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
-    private int moveSpeed = 10;
+    public int moveSpeed = 10;
+    [SerializeField] private TextMeshProUGUI turboValue;
+    [SerializeField] private Slider turboBar;
+    private float turbo = 50;
     // Start is called before the first frame update
     void Start()
     {
@@ -44,13 +49,15 @@ public class PlayerMovement : MonoBehaviour
 
     private void Turbo()
     {
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (Input.GetKey(KeyCode.LeftShift) && turbo > 0)
         {
+            turbo -= (10 * Time.deltaTime);
+            turboBar.value = turbo;
+            turboValue.text = (int) turbo + "%";
             moveSpeed = 20;
+            Debug.Log(turbo);
         }
-
-        if (Input.GetKeyUp(KeyCode.LeftShift))
-        {
+        else {
             moveSpeed = 10;
         }
     }
