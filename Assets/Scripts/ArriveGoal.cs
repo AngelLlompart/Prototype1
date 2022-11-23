@@ -5,10 +5,11 @@ using UnityEngine;
 
 public class ArriveGoal : MonoBehaviour
 {
+    private GameManager _gameManager;
     // Start is called before the first frame update
     void Start()
     {
-        
+        _gameManager = FindObjectOfType<GameManager>();
     }
 
     // Update is called once per frame
@@ -21,7 +22,7 @@ public class ArriveGoal : MonoBehaviour
     {
         if (collider.CompareTag("Player"))
         {
-            Time.timeScale = 0;
+           _gameManager.ArriveGoal();
         }
     }
 }

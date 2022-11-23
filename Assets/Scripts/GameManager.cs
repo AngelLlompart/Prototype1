@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
@@ -22,11 +23,13 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        btnOk.onClick.AddListener(GameOver);
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         txtWin.gameObject.SetActive(false);
         btnOk.gameObject.SetActive(false);
         _player = GameObject.FindWithTag("Player");
+        Time.timeScale = 1;
     }
 
     // Update is called once per frame
@@ -62,6 +65,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void ArriveGoal()
+    {
+        win = true;
+        EndLevel("Congratulations, go to next level.");
+    }
     private void EndLevel(String message)
     {
         Cursor.visible = true;
@@ -69,5 +77,11 @@ public class GameManager : MonoBehaviour
         txtWin.text = message;
         txtWin.gameObject.SetActive(true);
         btnOk.gameObject.SetActive(true);
+        Time.timeScale = 0;
+    }
+
+    private void GameOver()
+    {
+        SceneManager.LoadScene("Level1");
     }
 }

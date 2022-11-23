@@ -55,7 +55,6 @@ public class PlayerMovement : MonoBehaviour
             turboBar.value = turbo;
             turboValue.text = (int) turbo + "%";
             moveSpeed = 20;
-            Debug.Log(turbo);
         }
         else {
             moveSpeed = 10;
