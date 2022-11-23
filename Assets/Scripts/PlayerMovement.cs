@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public int moveSpeed = 10;
+    private int moveSpeed = 10;
     // Start is called before the first frame update
     void Start()
     {
@@ -16,6 +16,7 @@ public class PlayerMovement : MonoBehaviour
     {
         CarMovement();
         CarRotation();
+        Turbo();
     }
 
     private void CarMovement()
@@ -38,6 +39,19 @@ public class PlayerMovement : MonoBehaviour
         } else if (Input.GetKey(KeyCode.D))
         {
             transform.Rotate(0,-90 * Time.deltaTime,0);
+        }
+    }
+
+    private void Turbo()
+    {
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            moveSpeed = 20;
+        }
+
+        if (Input.GetKeyUp(KeyCode.LeftShift))
+        {
+            moveSpeed = 10;
         }
     }
 }
