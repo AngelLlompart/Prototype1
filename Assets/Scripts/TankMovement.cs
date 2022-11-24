@@ -14,8 +14,8 @@ public class TankMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.Translate(Vector3.forward * 2.8f * Time.deltaTime);
-        if(left)transform.Rotate(0, -20 * Time.deltaTime, 0);
+        transform.Translate(Vector3.forward * 4.2f * Time.deltaTime);
+        if(left)transform.Rotate(0, -30 * Time.deltaTime, 0);
         //transform.Rotate(0, -20 * Time.deltaTime, 0);
         if (finalCoroutine)
         {
@@ -28,11 +28,11 @@ public class TankMovement : MonoBehaviour
         finalCoroutine = false;
         yield return new WaitForSecondsRealtime(6);
         left = true;
-        yield return new WaitForSecondsRealtime(9);
+        yield return new WaitForSecondsRealtime(6);
         left = false;
         yield return new WaitForSecondsRealtime(6);
         left = true;
-        yield return new WaitForSecondsRealtime(9);
+        yield return new WaitForSecondsRealtime(6);
         left = false;
         finalCoroutine = true;
     }

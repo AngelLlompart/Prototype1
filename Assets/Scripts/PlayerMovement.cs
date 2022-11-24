@@ -47,10 +47,10 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.A))
         {
-            transform.Rotate(0,90 * Time.deltaTime,0);
+            transform.Rotate(0,-90 * Time.deltaTime,0);
         } else if (Input.GetKey(KeyCode.D))
         {
-            transform.Rotate(0,-90 * Time.deltaTime,0);
+            transform.Rotate(0,90 * Time.deltaTime,0);
         }
     }
 
