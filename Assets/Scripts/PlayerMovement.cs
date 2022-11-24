@@ -23,6 +23,12 @@ public class PlayerMovement : MonoBehaviour
         CarRotation();
         CarRestoreRotation();
         Turbo();
+
+        if (transform.position.y < -1)
+        {
+            transform.position = new Vector3(0, 1, transform.position.z);
+            transform.rotation = Quaternion.identity;
+        }
     }
 
     private void CarMovement()
