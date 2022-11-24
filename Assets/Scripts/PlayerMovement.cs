@@ -21,6 +21,7 @@ public class PlayerMovement : MonoBehaviour
     {
         CarMovement();
         CarRotation();
+        CarRestoreRotation();
         Turbo();
     }
 
@@ -49,7 +50,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Turbo()
     {
-        if (Input.GetKey(KeyCode.LeftShift) && turbo > 0)
+        if (Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.W) && turbo > 0)
         {
             turbo -= (10 * Time.deltaTime);
             turboBar.value = turbo;
@@ -58,6 +59,16 @@ public class PlayerMovement : MonoBehaviour
         }
         else {
             moveSpeed = 10;
+        }
+    }
+
+    private void CarRestoreRotation()
+    {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            Vector3 eulers = transform.eulerAngles;
+            transform.rotation = Quaternion.Euler(0, eulers.y, 0);
+            
         }
     }
 }

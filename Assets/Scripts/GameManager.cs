@@ -42,7 +42,7 @@ public class GameManager : MonoBehaviour
     {
         hp -= dmgAmount;
         ShowLife();
-        if (hp == 0)
+        if (hp <= 0)
         {
             Destroy(_player);
             Destroy(FindObjectOfType<CameraFollow>());
@@ -54,7 +54,14 @@ public class GameManager : MonoBehaviour
     private void ShowLife()
     {
         healthBar.value = hp;
-        hpValue.text = hp + "%";
+        if (hp <= 0)
+        {
+            hpValue.text = 0 + "%";  
+        }
+        else
+        {
+            hpValue.text = hp + "%";  
+        }
         if (hp < 50)
         {
             healthBar.gameObject.transform.Find("Fill Area").Find("Fill").GetComponent<Image>().color = Color.red;

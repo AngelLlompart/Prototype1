@@ -14,7 +14,7 @@ public class TankMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.Translate(Vector3.forward * 3 * Time.deltaTime);
+        transform.Translate(Vector3.forward * 2.8f * Time.deltaTime);
         if(left)transform.Rotate(0, -20 * Time.deltaTime, 0);
         //transform.Rotate(0, -20 * Time.deltaTime, 0);
         if (finalCoroutine)
