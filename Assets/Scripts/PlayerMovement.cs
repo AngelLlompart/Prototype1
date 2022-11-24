@@ -13,7 +13,7 @@ public class PlayerMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        UpdateTurbo();
     }
 
     // Update is called once per frame
@@ -53,13 +53,32 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.W) && turbo > 0)
         {
             turbo -= (10 * Time.deltaTime);
-            turboBar.value = turbo;
-            turboValue.text = (int) turbo + "%";
+            UpdateTurbo();
             moveSpeed = 20;
         }
         else {
             moveSpeed = 10;
         }
+    }
+
+    public void AddTurbo()
+    {
+        if (turbo + 10 < 100)
+        {
+            turbo += 10;
+        }
+        else
+        {
+            turbo = 100;
+        }
+        
+        UpdateTurbo();
+    }
+
+    private void UpdateTurbo()
+    {
+        turboBar.value = turbo;
+        turboValue.text = (int) turbo + "%";
     }
 
     private void CarRestoreRotation()
