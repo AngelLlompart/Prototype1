@@ -14,6 +14,14 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI hpValue;
     [SerializeField] private TextMeshProUGUI txtPoints;
     [SerializeField] private Button btnOk;
+    [SerializeField] private GameObject pauseMenu;
+    [SerializeField] private Button btnResume;
+    [SerializeField] private Button btnSave;
+    [SerializeField] private Button btnRestart;
+    [SerializeField] private Button btnMenu;
+    [SerializeField] private Button btnQuit;
+    [SerializeField] private Button btnYes;
+    [SerializeField] private Button btnNo;
     private GameObject _player;
     private Timer _timer;
     private int hp = 100;
@@ -24,6 +32,8 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         btnOk.onClick.AddListener(GameOver);
+        btnResume.onClick.AddListener(ResumeGame);
+        btnRestart.onClick.AddListener(RestartLevel);
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         txtWin.gameObject.SetActive(false);
@@ -36,7 +46,10 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            PauseGame();
+        }
     }
 
     public void Damage(int dmgAmount)
@@ -73,11 +86,33 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void PauseGame()
+    {
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+        Time.timeScale = 0.0f;
+        pauseMenu.gameObject.SetActive(true);
+    }
+    
+    private void ResumeGame()
+    {
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+        pauseMenu.gameObject.SetActive(false);
+        Time.timeScale = 1.0f;
+    }
+
+    private void RestartLevel()
+    {
+        SceneManager.LoadScene("Level1");
+    }
     public void EndTime()
     {
         win = false;
         EndLevel("Time has ended!");
     }
+
+    
     public void ArriveGoal()
     {
         win = true;
