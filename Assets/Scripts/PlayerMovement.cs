@@ -33,11 +33,11 @@ public class PlayerMovement : MonoBehaviour
 
     private void CarMovement()
     {
-        if (Input.GetKey(KeyCode.W))
+        if (Input.GetKey(KeyCode.W) || Input.GetAxis("Vertical") > 0)
         {
             transform.Translate(Vector3.forward * Time.deltaTime * moveSpeed);
         }
-        else if (Input.GetKey(KeyCode.S))
+        else if (Input.GetKey(KeyCode.S) || Input.GetAxis("Vertical") < 0)
         {
             transform.Translate(Vector3.back * Time.deltaTime * moveSpeed);
         }
@@ -45,10 +45,10 @@ public class PlayerMovement : MonoBehaviour
 
     private void CarRotation()
     {
-        if (Input.GetKey(KeyCode.A))
+        if (Input.GetKey(KeyCode.A) || Input.GetAxis("HorizontalR") < 0)
         {
             transform.Rotate(0,-90 * Time.deltaTime,0);
-        } else if (Input.GetKey(KeyCode.D))
+        } else if (Input.GetKey(KeyCode.D) || Input.GetAxis("HorizontalR") > 0)
         {
             transform.Rotate(0,90 * Time.deltaTime,0);
         }
@@ -56,7 +56,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Turbo()
     {
-        if (Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.W) && turbo > 0)
+        if ((Input.GetKey(KeyCode.LeftShift) || Input.GetButton("FireRB") || Input.GetButton("FireLB")) && (Input.GetKey(KeyCode.W) || Input.GetAxis("Vertical") > 0) && turbo > 0)
         {
             turbo -= (10 * Time.deltaTime);
             UpdateTurbo();
