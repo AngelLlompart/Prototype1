@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -22,22 +23,36 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Button btnQuit;
     [SerializeField] private Button btnYes;
     [SerializeField] private Button btnNo;
+    [SerializeField] private GameObject secureBox;
     private GameObject _player;
     private Timer _timer;
+    private bool _pause = false;
     private int hp = 100;
     private int points = 0;
+    private bool _save = false;
+    private bool _quit = false;
 
     private bool win = false;
     // Start is called before the first frame update
     void Start()
     {
+        _pause = false;
+        _save = false;
+        _quit = false;
         btnOk.onClick.AddListener(GameOver);
         btnResume.onClick.AddListener(ResumeGame);
+        btnSave.onClick.AddListener(SaveGame);
         btnRestart.onClick.AddListener(RestartLevel);
+        btnMenu.onClick.AddListener(MainMenu);
+        btnQuit.onClick.AddListener(Quit);
+        btnYes.onClick.AddListener(ComfirmExit);
+        btnNo.onClick.AddListener(CancelExit);
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         txtWin.gameObject.SetActive(false);
         btnOk.gameObject.SetActive(false);
+        pauseMenu.gameObject.SetActive(false);
+        secureBox.gameObject.SetActive(false);
         _player = GameObject.FindWithTag("Player");
         _timer = FindObjectOfType<Timer>();
         Time.timeScale = 1;
@@ -46,9 +61,13 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if ((Input.GetKeyDown(KeyCode.Escape) || Input.GetButtonDown("Start")) && _pause == false)
         {
             PauseGame();
+        }
+        else if ((Input.GetKeyDown(KeyCode.Escape) || Input.GetButtonDown("Start")) && _pause == true)
+        {
+            ResumeGame();
         }
     }
 
@@ -88,6 +107,7 @@ public class GameManager : MonoBehaviour
 
     private void PauseGame()
     {
+        _pause = true;
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
         Time.timeScale = 0.0f;
@@ -96,16 +116,83 @@ public class GameManager : MonoBehaviour
     
     private void ResumeGame()
     {
+        _pause = false;
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         pauseMenu.gameObject.SetActive(false);
         Time.timeScale = 1.0f;
     }
 
+    private void SaveGame()
+    {
+        PlayerPrefs.SetInt("level", 1);
+        PlayerPrefs.Save();
+        _save = true;
+    }
+
     private void RestartLevel()
     {
         SceneManager.LoadScene("Level1");
     }
+
+    private void MainMenu()
+    {
+        if (_save == false)
+        {
+            secureBox.SetActive(true);
+            _quit = false;
+        }
+        else
+        {
+            SceneManager.LoadScene("MainMenu");
+        }
+    }
+    
+    private void Quit()
+    {
+        if (_save == false)
+        {
+            secureBox.SetActive(true);
+            _quit = true;
+        }
+        else
+        {
+            #if UNITY_EDITOR
+                if(EditorApplication.isPlaying) 
+                {
+                    UnityEditor.EditorApplication.isPlaying = false;
+                }
+            #else
+                Application.Quit();
+            #endif
+        }
+    }
+
+    private void ComfirmExit()
+    {
+        if (_quit)
+        {
+        #if UNITY_EDITOR
+            if(EditorApplication.isPlaying) 
+            {
+                UnityEditor.EditorApplication.isPlaying = false;
+            }
+        #else
+            Application.Quit();
+        #endif
+        }
+        else
+        {
+            SceneManager.LoadScene("MainMenu");
+        }
+        secureBox.SetActive(false);
+    }
+
+    private void CancelExit()
+    {
+        secureBox.SetActive(false);
+    }
+    
     public void EndTime()
     {
         win = false;

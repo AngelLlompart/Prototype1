@@ -6299,6 +6299,7 @@ MonoBehaviour:
   btnQuit: {fileID: 787759173}
   btnYes: {fileID: 1556060236}
   btnNo: {fileID: 730770096}
+  secureBox: {fileID: 1320909811}
 --- !u!4 &1767540510 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5924013827781158164, guid: cdcb19fde9e8cba40b7bff849baf2c1b, type: 3}
