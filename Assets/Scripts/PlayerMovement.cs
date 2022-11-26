@@ -9,10 +9,12 @@ public class PlayerMovement : MonoBehaviour
     public int moveSpeed = 10;
     [SerializeField] private TextMeshProUGUI turboValue;
     [SerializeField] private Slider turboBar;
+    private GameManager _gameManager;
     private float turbo = 50;
     // Start is called before the first frame update
     void Start()
     {
+        _gameManager = FindObjectOfType<GameManager>();
         UpdateTurbo();
     }
 
@@ -47,10 +49,24 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.A) || Input.GetAxis("HorizontalR") < 0)
         {
-            transform.Rotate(0,-90 * Time.deltaTime,0);
+            if (_gameManager.invAxis)
+            {
+                transform.Rotate(0,90 * Time.deltaTime,0);
+            }
+            else
+            {
+                transform.Rotate(0, -90 * Time.deltaTime, 0);
+            }
         } else if (Input.GetKey(KeyCode.D) || Input.GetAxis("HorizontalR") > 0)
         {
-            transform.Rotate(0,90 * Time.deltaTime,0);
+            if (_gameManager.invAxis)
+            {
+                transform.Rotate(0, -90 * Time.deltaTime, 0);
+            }
+            else
+            {
+                transform.Rotate(0,90 * Time.deltaTime,0);
+            }
         }
     }
 

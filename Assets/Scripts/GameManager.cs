@@ -31,6 +31,7 @@ public class GameManager : MonoBehaviour
     private int points = 0;
     private bool _save = false;
     private bool _quit = false;
+    public bool invAxis = false;
 
     private bool win = false;
     // Start is called before the first frame update
