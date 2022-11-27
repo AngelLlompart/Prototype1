@@ -65,6 +65,14 @@ public class GameManager : MonoBehaviour
         level = PlayerPrefs.GetInt("level");
         Debug.Log(level);
         initLevel = PlayerPrefs.GetInt("level");
+        btnOk.onClick.AddListener(GameOver);
+        btnResume.onClick.AddListener(ResumeGame);
+        btnSave.onClick.AddListener(SaveGame);
+        btnRestart.onClick.AddListener(RestartLevel);
+        btnMenu.onClick.AddListener(MainMenu);
+        btnQuit.onClick.AddListener(Quit);
+        btnYes.onClick.AddListener(ComfirmExit);
+        btnNo.onClick.AddListener(CancelExit);
         InitLevel();
     }
 
@@ -239,7 +247,14 @@ public class GameManager : MonoBehaviour
         }
         //Debug.Log(points);
         txtPoints.text = "Points: " + points;
-        EndLevel("Congratulations, go to next level.");
+        if(level == 1)
+        {
+            EndLevel("Congratulations, go to next level.");
+        }
+        else
+        {
+            EndLevel("YOU WIN!");
+        }
     }
     private void EndLevel(String message)
     {
@@ -312,14 +327,7 @@ public class GameManager : MonoBehaviour
         _pause = false;
         _save = false;
         _quit = false;
-        btnOk.onClick.AddListener(GameOver);
-        btnResume.onClick.AddListener(ResumeGame);
-        btnSave.onClick.AddListener(SaveGame);
-        btnRestart.onClick.AddListener(RestartLevel);
-        btnMenu.onClick.AddListener(MainMenu);
-        btnQuit.onClick.AddListener(Quit);
-        btnYes.onClick.AddListener(ComfirmExit);
-        btnNo.onClick.AddListener(CancelExit);
+       
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         txtWin.gameObject.SetActive(false);

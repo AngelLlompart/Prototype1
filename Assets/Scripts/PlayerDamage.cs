@@ -29,5 +29,10 @@ public class PlayerDamage : MonoBehaviour
         {
             _gameManager.Damage(20);
         }
+
+        if (collision.gameObject.CompareTag("Bullet"))
+        {
+            _gameManager.Damage(30);
+        }
     }
 }

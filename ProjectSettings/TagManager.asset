@@ -9,6 +9,7 @@ TagManager:
   - NormalCamera
   - RightCamera
   - ReverseCamera
+  - Bullet
   layers:
   - Default
   - TransparentFX
