@@ -6,6 +6,7 @@ public class TankShoot : MonoBehaviour
 {
     [SerializeField] private GameObject bulletSpawner;
     [SerializeField] private GameObject bullet;
+    private AudioSource _shootAudioSource;
     private GameObject player;
     private bool finalCoroutine = false;
 
@@ -13,6 +14,7 @@ public class TankShoot : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        _shootAudioSource = GetComponent<AudioSource>();
         player = GameObject.FindWithTag("Player");
         StartCoroutine(Shoot());
     }
@@ -30,7 +32,7 @@ public class TankShoot : MonoBehaviour
     IEnumerator Shoot()
     {
         finalCoroutine = false;
-        
+        _shootAudioSource.Play();
         GameObject newBullet = Instantiate(bullet, bulletSpawner.transform.position, transform.rotation);
         Vector3 eulers = newBullet.transform.eulerAngles;
         newBullet.transform.rotation = Quaternion.Euler(90,eulers.y, eulers.z);

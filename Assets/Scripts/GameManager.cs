@@ -38,9 +38,15 @@ public class GameManager : MonoBehaviour
     public int level;
     private int initLevel;
     private bool finished = false;
-
+    public float musicVolume;
     private bool win = false;
 
+    private AudioSource _gameManagerAudioSource;
+
+    [SerializeField] private AudioClip pauseAudioClip;
+
+    [SerializeField] private AudioClip unpauseAudioClip;
+    
     public static GameManager instance;
     private void Awake()
     {
@@ -57,6 +63,8 @@ public class GameManager : MonoBehaviour
     
     void Start()
     {
+        musicVolume = 0.5f;
+        _gameManagerAudioSource = gameObject.GetComponent<AudioSource>();
         if (!PlayerPrefs.HasKey("level"))
         {
             PlayerPrefs.SetInt("level",1);
@@ -131,6 +139,7 @@ public class GameManager : MonoBehaviour
 
     private void PauseGame()
     {
+        _gameManagerAudioSource.PlayOneShot(pauseAudioClip, 2.0f);
         _pause = true;
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
@@ -140,6 +149,7 @@ public class GameManager : MonoBehaviour
     
     private void ResumeGame()
     {
+        _gameManagerAudioSource.PlayOneShot(unpauseAudioClip, 2.0f);
         Debug.Log("aaa");
         _pause = false;
         Cursor.visible = false;
@@ -341,10 +351,11 @@ public class GameManager : MonoBehaviour
         _mainCamera.GetComponent<CameraFollow>().offset = new Vector3(0, 5, -7);
         Vector3 eulers = _mainCamera.transform.eulerAngles;
         _mainCamera.transform.rotation = Quaternion.Euler(eulers.x, 0, eulers.z);
-        _player.GetComponent<Rigidbody>().velocity = Vector3.zero;
-        _player.GetComponent<Rigidbody>().angularVelocity = Vector3.zero; 
         _player.transform.position = new Vector3(0, 0.5f, -5.48f);
         _player.transform.rotation = Quaternion.Euler(0,0,0);
+        _player.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        _player.GetComponent<Rigidbody>().angularVelocity = Vector3.zero; 
+        
         ShowLife();
         _timer.ResetTime();
         _player.GetComponent<PlayerMovement>().ResetTurbo();

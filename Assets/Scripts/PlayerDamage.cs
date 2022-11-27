@@ -6,9 +6,12 @@ using UnityEngine;
 public class PlayerDamage : MonoBehaviour
 {
     private GameManager _gameManager;
+
+    private AudioSource _playerAudioSource;
     // Start is called before the first frame update
     void Start()
     {
+        _playerAudioSource = gameObject.GetComponent<AudioSource>();
         _gameManager = FindObjectOfType<GameManager>();
     }
 
@@ -22,16 +25,19 @@ public class PlayerDamage : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Obstacle"))
         {
+            _playerAudioSource.Play();
             _gameManager.Damage(10);
         }
 
         if (collision.gameObject.CompareTag("Enemy"))
         {
+            _playerAudioSource.Play();
             _gameManager.Damage(20);
         }
 
         if (collision.gameObject.CompareTag("Bullet"))
         {
+            _playerAudioSource.Play();
             _gameManager.Damage(30);
         }
     }

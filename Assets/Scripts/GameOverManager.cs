@@ -17,6 +17,7 @@ public class GameOverManager : MonoBehaviour
         btnRestart.onClick.AddListener(Restart);
         btnMenu.onClick.AddListener(Menu);
         btnQuit.onClick.AddListener(Quit);
+        Destroy(GameObject.Find("Level Audio Manager"));
         StartCoroutine(LateStart());
     }
 

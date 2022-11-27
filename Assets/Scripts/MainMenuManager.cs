@@ -18,9 +18,12 @@ public class MainMenuManager : MonoBehaviour
     [SerializeField] private Toggle axisToggle;
     [SerializeField] private Button btnCloseSettings;
     private GameManager _gameManager;
+
+    public float musicVolume;
     // Start is called before the first frame update
     void Start()
     {
+        musicVolume = volumeBar.value;
         _gameManager = FindObjectOfType<GameManager>();
         settingsMenu.SetActive(false);
         btnPlay.onClick.AddListener(Play);
@@ -28,12 +31,15 @@ public class MainMenuManager : MonoBehaviour
         btnQuit.onClick.AddListener(Quit);
         btnCloseSettings.onClick.AddListener(CloseSettings);
        // _gameManager.PauseGame();
+       Destroy(GameObject.Find("Level Audio Manager"));
        StartCoroutine(LateStart());
     }
 
     // Update is called once per frame
     void Update()
     {
+        musicVolume = volumeBar.value;
+        _gameManager.musicVolume = volumeBar.value;
         volumeValue.text = (int) (volumeBar.value * 100) + "%";
         if (axisToggle.isOn)
         {
