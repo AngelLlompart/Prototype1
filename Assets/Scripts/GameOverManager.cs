@@ -10,11 +10,14 @@ public class GameOverManager : MonoBehaviour
     [SerializeField] private Button btnRestart;
     [SerializeField] private Button btnMenu;
     [SerializeField] private Button btnQuit;
+    private GameManager _gameManager;
     void Start()
     {
+        _gameManager = FindObjectOfType<GameManager>();
         btnRestart.onClick.AddListener(Restart);
         btnMenu.onClick.AddListener(Menu);
         btnQuit.onClick.AddListener(Quit);
+        StartCoroutine(LateStart());
     }
 
     // Update is called once per frame
@@ -25,7 +28,15 @@ public class GameOverManager : MonoBehaviour
 
     private void Restart()
     {
-        SceneManager.LoadScene("Level1");
+        _gameManager.InitLevel();
+        if (_gameManager.level == 1)
+        { 
+            SceneManager.LoadScene("Level1");
+        }
+        else
+        {
+            SceneManager.LoadScene("Level2");
+        }
     }
     
     private void Menu()
@@ -43,5 +54,13 @@ public class GameOverManager : MonoBehaviour
         #else
             Application.Quit();
         #endif
+    }
+    
+    IEnumerator LateStart()
+    {
+        yield return new WaitForSeconds(0.01f);
+        Time.timeScale = 0.0f;
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
     }
 }

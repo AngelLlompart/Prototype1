@@ -9,12 +9,15 @@ public class PlayerMovement : MonoBehaviour
     public int moveSpeed = 10;
     [SerializeField] private TextMeshProUGUI turboValue;
     [SerializeField] private Slider turboBar;
+    private Rigidbody _playerRb;
     private GameManager _gameManager;
-    private float turbo = 50;
+    private float _ogTurbo = 50;
+    private float turbo;
     // Start is called before the first frame update
     void Start()
     {
         _gameManager = FindObjectOfType<GameManager>();
+        _playerRb = gameObject.GetComponent<Rigidbody>();
         UpdateTurbo();
     }
 
@@ -103,10 +106,23 @@ public class PlayerMovement : MonoBehaviour
         turboValue.text = (int) turbo + "%";
     }
 
+    public void ResetTurbo()
+    {
+        turbo = _ogTurbo;
+        UpdateTurbo();
+    }
+
+    public void SetTurbo(int ogTurbo)
+    {
+        _ogTurbo = ogTurbo;
+    }
+    
     private void CarRestoreRotation()
     {
         if (Input.GetKeyDown(KeyCode.R))
         {
+            _playerRb.velocity = Vector3.zero;
+            _playerRb.angularVelocity = Vector3.zero; 
             Vector3 eulers = transform.eulerAngles;
             transform.rotation = Quaternion.Euler(0, eulers.y, 0);
             

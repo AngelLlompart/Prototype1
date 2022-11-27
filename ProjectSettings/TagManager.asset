@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Obstacle
   - Enemy
+  - NormalCamera
+  - RightCamera
+  - ReverseCamera
   layers:
   - Default
   - TransparentFX

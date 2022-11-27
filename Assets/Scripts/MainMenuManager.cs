@@ -17,16 +17,18 @@ public class MainMenuManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI volumeValue;
     [SerializeField] private Toggle axisToggle;
     [SerializeField] private Button btnCloseSettings;
-
-    public bool invAxis = false;
+    private GameManager _gameManager;
     // Start is called before the first frame update
     void Start()
     {
+        _gameManager = FindObjectOfType<GameManager>();
         settingsMenu.SetActive(false);
         btnPlay.onClick.AddListener(Play);
         btnSettings.onClick.AddListener(Settings);
         btnQuit.onClick.AddListener(Quit);
         btnCloseSettings.onClick.AddListener(CloseSettings);
+       // _gameManager.PauseGame();
+       StartCoroutine(LateStart());
     }
 
     // Update is called once per frame
@@ -35,21 +37,32 @@ public class MainMenuManager : MonoBehaviour
         volumeValue.text = (int) (volumeBar.value * 100) + "%";
         if (axisToggle.isOn)
         {
-            invAxis = true;
+            _gameManager.invAxis = true;
         }
         else
         {
-            invAxis = false;
+            _gameManager.invAxis = false;
         }
     }
 
     private void Play()
     {
-        SceneManager.LoadScene("Level1");
+        _gameManager.InitLevel();
+        if (_gameManager.level == 1)
+        { 
+            SceneManager.LoadScene("Level1");
+        }
+        else
+        {
+            Debug.Log("level " + _gameManager.level);
+            SceneManager.LoadScene("Level2");
+        }
+        
     }
 
     private void Settings()
     {
+        Debug.Log("aaa");
         settingsMenu.SetActive(true);
     }
 
@@ -68,5 +81,13 @@ public class MainMenuManager : MonoBehaviour
     private void CloseSettings()
     {
         settingsMenu.SetActive(false);
+    }
+    
+    IEnumerator LateStart()
+    {
+        yield return new WaitForSeconds(0.01f);
+        Time.timeScale = 0.0f;
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
     }
 }

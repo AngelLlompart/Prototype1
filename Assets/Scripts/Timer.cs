@@ -13,10 +13,7 @@ public class Timer : MonoBehaviour
     private int timeFrequenccy = 1;
     void Start()
     {
-        timer = _time;
-        _ogTimer = _time;
         _gameManager = FindObjectOfType<GameManager>();
-        txtTime.text = "Time: " + _ogTimer;
     }
 
     // Update is called once per frame
@@ -33,5 +30,17 @@ public class Timer : MonoBehaviour
         {
             _gameManager.EndTime();
         }
+    }
+
+    public void ResetTime()
+    {
+        timer = _time;
+        _ogTimer = _time;
+        txtTime.text = "Time: " + _ogTimer;
+    }
+
+    public void SetTime(int time)
+    {
+        _time = time;
     }
 }
